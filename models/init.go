@@ -9,6 +9,7 @@ package models
 import (
 	"fmt"
 	"gin-template/conf"
+	"gin-template/pkg/util"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"time"
@@ -35,11 +36,20 @@ func SetUp() {
 	}
 
 	DB.AutoMigrate(&Account{})
+	DB.AutoMigrate(&FileModel{})
 }
 
 type BaseModel struct {
-	ID        uint `gorm:"primary_key'" json:"id"`
+	ID        uint64 `gorm:"primary_key'" json:"id"`
 	CreatedAt time.Time `json:"-"`
 	UpdatedAt time.Time `json:"-"`
 	DeletedAt *time.Time `sql:"index" json:"-"`
+}
+
+// 生成全局唯一ID
+func (m *BaseModel) BeforeCreate(scope *gorm.Scope) error {
+	if m.ID == 0 {
+		m.ID = util.GenSonyFlakeId()
+	}
+	return nil
 }

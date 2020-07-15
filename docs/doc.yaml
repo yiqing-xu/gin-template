@@ -1,0 +1,70 @@
+---
+swagger: "2.0"
+info:
+  description: "一个swagger"
+  version: "1.0.5"
+  title: "一个swagger"
+
+host: "192.168.1.109:7890"
+basePath: "/api"
+
+schemes:
+  - "http"
+  -
+paths:
+  /login:
+    post:
+      tags:
+        - 账户
+      summary: 登录
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: 账号密码
+          schema:
+            $ref: '#/definitions/LoginForm'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
+
+definitions:
+  LoginForm:
+    properties:
+      username:
+        type: string
+        description: 用户名
+      password:
+        type: string
+        description: 密码
+
+  LoginResponse:
+    properties:
+      code:
+        type: integer
+        description: 状态码
+        default: 200
+      msg:
+        type: string
+        description: 返回信息
+        default: 返回成功
+      data:
+        $ref: '#/definitions/LoginData'
+
+  LoginData:
+    properties:
+      id:
+        type: integer
+        description: 用户id
+      username:
+        type: string
+        description: 账号
+      name:
+        type: string
+        description: 姓名
+      token:
+        type: string
+        description: token码
+

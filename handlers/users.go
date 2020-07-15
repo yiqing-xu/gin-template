@@ -22,7 +22,7 @@ func UsersLoginHandler(ctx *gin.Context) {
 		fmt.Println(err)
 		panic(err)
 	}
-	loginUser, isLoginUser := user.CheckPassword(user.Password)
+	loginUser, isLoginUser := user.CheckPassword()
 	if !isLoginUser {
 		response.BadRequest("密码错误")
 		return

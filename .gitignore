@@ -12,5 +12,6 @@
 *.out
 
 .idea
-vendor
+media
 conf/conf.ini
+logs

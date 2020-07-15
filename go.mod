@@ -8,6 +8,9 @@ require (
 	github.com/go-ini/ini v1.57.0
 	github.com/jinzhu/gorm v1.9.14
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	github.com/sony/sonyflake v1.0.0
+	github.com/unidoc/unioffice v1.4.0 // indirect
 	golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
+	golang.org/x/sync v0.0.0-20200625203802-6e8e738ad208 // indirect
 	gopkg.in/ini.v1 v1.57.0 // indirect
 )

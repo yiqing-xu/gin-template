@@ -21,7 +21,7 @@ type Account struct {
 }
 
 func (a *Account) TableName() string {
-	return "users_account"
+	return "user_accounts"
 }
 
 func (a *Account) GetUserByID(id uint) *Account {
@@ -44,8 +44,9 @@ func (a *Account) SetPassword(password string) error {
 }
 
 // 验证帐户密码合法性
-func (a *Account) CheckPassword(password string) (*Account, bool) {
-	DB.Model(&Account{}).Where("username = ?", a.Username).First(a)
+func (a *Account) CheckPassword() (*Account, bool) {
+	password := a.Password
+	DB.Model(&Account{}).Where("username = ?", a.Username).First(&a)
 	err := bcrypt.CompareHashAndPassword([]byte(a.Password), []byte(password))
 	return a, err == nil
 }

@@ -8,6 +8,7 @@ package conf
 
 import (
 	"github.com/go-ini/ini"
+	"time"
 )
 
 type SqlDataBase struct {
@@ -28,12 +29,20 @@ type Jwt struct {
 type Project struct {
 	StaticUrlMapPath string
 	TemplateGlob     string
+	MediaFilePath	 string
+}
+
+type Server struct {
+	Port string
+	ReadTimeout time.Duration
+	WriteTimeout time.Duration
 }
 
 var (
 	DataBase     = &SqlDataBase{}
 	JwtSecretKey = &Jwt{}
 	ProjectCfg   = &Project{}
+	HttpServer 	= &Server{}
 )
 
 func SetUp() {
@@ -48,6 +57,9 @@ func SetUp() {
 		panic(err)
 	}
 	if err := cfg.Section("project").MapTo(ProjectCfg); err != nil {
+		panic(err)
+	}
+	if err := cfg.Section("server").MapTo(HttpServer); err != nil {
 		panic(err)
 	}
 }

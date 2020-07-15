@@ -17,7 +17,7 @@ import (
 // 定义jwt载荷
 type UserClaims struct {
 	jwt.StandardClaims
-	ID uint `json:"id"`
+	ID uint64 `json:"id"`
 	Username string `json:"username"`
 }
 
@@ -33,8 +33,8 @@ func (c *UserClaims) GetUserByID() *models.Account {
 }
 
 // 生成jwt token字符串
-func GenToken(id uint, username string) (string, error) {
-	expiredTime := time.Now().Add(time.Hour * time.Duration(1)).Unix()
+func GenToken(id uint64, username string) (string, error) {
+	expiredTime := time.Now().Add(time.Hour * time.Duration(24)).Unix()
 	claims := UserClaims{
 		jwt.StandardClaims{
 			ExpiresAt: expiredTime,

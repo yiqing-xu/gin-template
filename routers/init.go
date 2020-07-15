@@ -28,13 +28,14 @@ func InitRouter() *gin.Engine {
 	}
 	router.LoadHTMLGlob(conf.ProjectCfg.TemplateGlob)
 
-	routerGroupWithNoAuth := router.Group("api")
+	routerGroupWithNoAuth := router.Group("api")  // 无需token验证路由
 	RegisterUsersRouter(routerGroupWithNoAuth)
 	RegisterSwaggerRouter(routerGroupWithNoAuth)
 
-	routerGroupWithAuth := router.Group("api/v1")
+	routerGroupWithAuth := router.Group("api/v1")  // token验证路由
 	routerGroupWithAuth.Use(middlewares.AuthJwtTokenMiddleware())
 	RegisterUsersRouterWithAuth(routerGroupWithAuth)
+	RegisterCmsRouter(routerGroupWithAuth)
 
 	return router
 }
