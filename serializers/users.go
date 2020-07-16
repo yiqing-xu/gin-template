@@ -8,14 +8,20 @@ package serializers
 
 import "gin-template/models"
 
-type Account struct {
-	Username string `form:"username"json:"username"`
-	Password string `form:"password"json:"-"`
+type Login struct {
+	Username string `form:"usernmae"; json:"username"`
+	Password string `form:"password"; json:"password"`
 }
 
-func (a *Account) GenAccount() models.Account {
-	return models.Account{
-		Username: a.Username,
-		Password: a.Password,
+func (l *Login) GetUser() *models.Account {
+	return &models.Account{
+		Username: l.Username,
+		Password: l.Password,
 	}
+}
+
+type Account struct {
+	Username string `form:"username" json:"username"`
+	OldPwd string `form:"oldPwd" json:"oldPwd"`
+	NewPwd string `form:"newPwd"json:"newPwd"`
 }

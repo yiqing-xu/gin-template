@@ -37,6 +37,8 @@ func SetUp() {
 
 	DB.AutoMigrate(&Account{})
 	DB.AutoMigrate(&FileModel{})
+	DB.AutoMigrate(&Message{})
+
 }
 
 type BaseModel struct {

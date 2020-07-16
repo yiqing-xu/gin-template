@@ -18,4 +18,5 @@ func RegisterUsersRouter(group *gin.RouterGroup)  {
 
 func RegisterUsersRouterWithAuth(group *gin.RouterGroup) {
 	group.PUT("/userinfo", handlers.UsersSetInfoHandler)
+	group.PUT("/pwd", handlers.UsersSetPwdHandler)
 }

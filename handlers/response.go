@@ -9,12 +9,12 @@ package handlers
 import "github.com/gin-gonic/gin"
 
 const (
-	Success = 200
-	BadRequest = 400
+	Success		 	= 200
+	BadRequest 		= 400
 	Unauthenticated = 401
-	NoPermisson = 403
-	NotFund = 404
-	ServerError = 500
+	NoPermisson 	= 403
+	NotFund 		= 404
+	ServerError 	= 500
 )
 
 type Response struct {
