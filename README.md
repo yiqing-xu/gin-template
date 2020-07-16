@@ -9,6 +9,7 @@ golang
 Gin  
 gorm  
 jwt token认证go-jwt  
+gorilla-websocket
 手动集成swagger
 
 #### 项目目录
@@ -39,11 +40,11 @@ jwt token认证go-jwt
 go mod tidy     // 包管理
 go mod vendor   // 同步包文件
 go run main.go  // 入口
-rizla main.go   // 热重载
+bee run   // 热重载
 ```
 
 #### 备注
-git忽略conf文件夹下conf.ini配置文件
+git conf文件夹下conf.ini配置文件
 ```ini
 [mysql]
 Type = mysql

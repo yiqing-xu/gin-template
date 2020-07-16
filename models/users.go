@@ -7,7 +7,6 @@
 package models
 
 import (
-	"fmt"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -47,12 +46,8 @@ func (a *Account) SetPassword(password string) error {
 // 验证登录帐户密码合法性
 func (a *Account) CheckPassword() bool {
 	password := a.Password
-	fmt.Println(password)
-	DB.Model(&Account{}).Where("username = ?", a.Username).First(&a)
-	fmt.Println(a.Password)
-	fmt.Println(password)
+	DB.Where("username = ?", a.Username).First(&a)
 	err := bcrypt.CompareHashAndPassword([]byte(a.Password), []byte(password))
-	fmt.Println(err)
 	return err == nil
 }
 
