@@ -36,7 +36,7 @@ func WsMessageHandler(ctx *gin.Context) {
 		ID: currentUser.ID,
 		WsConn: wsConn,
 		Message: make(chan map[string]interface{}, 1024),
-		Receive: make(chan map[string]interface{}, 1024),
+		Receive: make(chan *models.FormalMsg, 1024),
 	}
 	models.ClientManagerInstance.Clients[client.ID] = &client
 	go client.ReadMessage()
@@ -49,13 +49,21 @@ func TestWsMessageHandler(ctx *gin.Context) {
 	fmt.Println(currentUser)
 	if client, ok := models.ClientManagerInstance.Clients[currentUser.ID]; ok {
 		client.Message <- map[string]interface{}{
-			"id": uint64(310974693714692804),
+			"id": 310974693714692804,
 			"msg": "okokokok",
 		}
 	}
 	response.Response(nil)
 }
 
-func Send()  {
-	
+func GetWsMessageHandler(ctx *gin.Context) {
+	response := Response{Ctx: ctx}
+	currentUser := jwt.AssertUser(ctx)
+	dstUserId := ctx.Param("id")
+	ctx.ShouldBindQuery()
+	if currentUser == nil {
+		response.Unauthenticated("未认证")
+		return
+	}
+	models.DB.Model(&models.Message{}).Where("sender_id = ?", currentUser.ID).Or("receiver_id = ?", dstUserId)
 }

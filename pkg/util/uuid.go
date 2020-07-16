@@ -1,15 +1,19 @@
 package util
 
 import (
-	"github.com/sony/sonyflake"
+	"fmt"
+	"time"
 )
+var t = time.Unix(1594909810, 0)
 
-var flake = sonyflake.NewSonyflake(sonyflake.Settings{})
+var flake = NewSonyflake(Settings{
 
-func GenSonyFlakeId() uint64  {
+})
+
+func GenSonyFlakeId() uint64 {
 	uuid, err := flake.NextID()
 	if err != nil {
-		panic(err)
+		fmt.Println(err)
 	}
 	return uuid
 }

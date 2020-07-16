@@ -7,7 +7,7 @@
 package handlers
 
 import (
-	"encoding/json"
+	"fmt"
 	"gin-template/models"
 	"gin-template/pkg/jwt"
 	"gin-template/pkg/util"
@@ -32,13 +32,10 @@ func UsersLoginHandler(ctx *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	var data map[string]interface{}
-	userData, _ := json.Marshal(user)
-	if err := json.Unmarshal(userData, &data); err != nil {
-		panic(err)
-	}
-	data["token"] = token
-	response.Response(data)
+	//data, _ := util.PrecisionLost(user)
+	//data["token"] = token
+	user.Token = token
+	response.Response(user)
 	return
 }
 
@@ -66,7 +63,12 @@ func UsersRegisterHandler(ctx *gin.Context) {
 // 修改用户信息
 func UsersSetInfoHandler(ctx *gin.Context) {
 	response := Response{Ctx: ctx}
-	jsonData := util.GetBodyData(ctx)
+	jsonData, err := util.GetBodyData(ctx)
+	if err != nil {
+		response.BadRequest("参数解析失败")
+		return
+	}
+	fmt.Println(jsonData)
 	if jsonData == nil {
 		response.BadRequest("获取不到参数")
 		return

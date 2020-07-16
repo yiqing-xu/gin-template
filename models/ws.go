@@ -9,14 +9,18 @@ package models
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
-	"strconv"
 )
+
+type FormalMsg struct {
+	ID 	 uint64 	`json:"id"`
+	Text string `json:"text"`
+}
 
 type Client struct {
 	ID      uint64
 	WsConn  *websocket.Conn
 	Message chan map[string]interface{}
-	Receive chan map[string]interface{}
+	Receive chan *FormalMsg
 }
 
 type ClientManager struct {
@@ -30,24 +34,33 @@ var ClientManagerInstance = ClientManager{
 // 获取消息，写入chan
 func (c *Client) ReadMessage() {
 	for {
-		msg := make(map[string]interface{})
+		var msg FormalMsg
 		err := c.WsConn.ReadJSON(&msg)
 		if err != nil {  // err则表示断开连接，删除conn连接
+			fmt.Println(err)
 			delete(ClientManagerInstance.Clients, c.ID)
 			break
 		}
-		c.Receive <- msg
+		c.Receive <- &msg
 	}
 }
 
 // 从chan获取发送消息
 func (c *Client) WriteMessage() {
 	for {
+		fmt.Println("正在接受")
 		msg := <- c.Receive
-		dstID := msg["id"]
-		dstIDStr := dstID.(string)
-		dstID64, _ := strconv.Atoi(dstIDStr)
-		dstClient := ClientManagerInstance.Clients[uint64(dstID64)]
+		fmt.Println("正在接受")
+		go func() {
+			message := Message{
+				Text: msg.Text,
+				SenderId: c.ID,
+				ReceiverId: msg.ID,
+			}
+			DB.Create(&message)
+		}()
+
+		dstClient := ClientManagerInstance.Clients[msg.ID]
 		if err := dstClient.WsConn.WriteJSON(msg); err != nil {
 			fmt.Println(err)
 		}
@@ -62,3 +75,9 @@ type Message struct {
 	Receiver 	Account `gorm:"foreignkey:ReceiverId"`
 	ReceiverId  uint64	`gorm:"comment:'接收者'"`
 }
+
+func (m *Message) TableName() string {
+	return "messages"
+}
+
+

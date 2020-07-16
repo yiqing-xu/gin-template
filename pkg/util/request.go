@@ -11,20 +11,25 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
+	"strings"
 )
 
 // 反序列化request.body中的json数据为map
-func GetBodyData(ctx *gin.Context) map[string]interface{} {
+func GetBodyData(ctx *gin.Context) (map[string]interface{}, error) {
 	bdata := make([]byte, 1024)
 	length, err := ctx.Request.Body.Read(bdata)
 	if err != nil && err != io.EOF {
-		return nil
+		return nil, err
 	}
 	var data map[string]interface{}
-	if err := json.Unmarshal(bdata[:length], &data); err != nil {
-		return nil
+	str := string(bdata[:length])
+	decoder := json.NewDecoder(strings.NewReader(str))
+	decoder.UseNumber()
+	err1 := decoder.Decode(&data)
+	if err1 != nil {
+		return nil, err
 	}
-	return data
+	return data, nil
 }
 
 // 构建文件url连接主机端口全链接 "https://192.168.11.121:7889/meida/upload/..."
