@@ -31,6 +31,7 @@ gorilla-websocket服务
     │ .gitignore        git
     │ go.mod            go mod  
     │ go.sum            go mod
+    | main              linux执行文件
     │ main.go           main入口
     │ gin-template.exe  编译二进制文件
     │ README.md         
