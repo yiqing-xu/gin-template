@@ -18,7 +18,6 @@ type Account struct {
 	Password string `gorm:"column:password;comment:'密码'" form:"password" json:"-"`
 	Name string `form:"name" json:"name"`
 	IsActive bool `json:"-"`
-	Token string `gorm:"-" json:"token"`
 }
 
 func (a *Account) TableName() string {

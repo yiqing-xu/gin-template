@@ -17,4 +17,5 @@ func RegisterWsHandler(routerGroup *gin.RouterGroup) {
 
 func RegisterWsAuthHandler(routerGroup *gin.RouterGroup) {
 	routerGroup.GET("ws/test", handlers.TestWsMessageHandler)
+	routerGroup.GET("ws/messages/:id", handlers.GetWsMessageHandler)
 }

@@ -30,7 +30,7 @@ func SetUp() {
 		panic(err)
 	}
 	DB = db
-
+	DB.LogMode(true)
 	gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
 		return conf.DataBase.Prefix + defaultTableName
 	}

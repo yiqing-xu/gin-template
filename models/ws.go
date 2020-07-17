@@ -12,7 +12,7 @@ import (
 )
 
 type FormalMsg struct {
-	ID 	 uint64 	`json:"id"`
+	ID 	 uint64 `json:"id"`
 	Text string `json:"text"`
 }
 
@@ -69,11 +69,11 @@ func (c *Client) WriteMessage() {
 
 type Message struct {
 	BaseModel
-	Text 		string 	`gorm:"comment:'文本'"`
-	Sender 		Account `gorm:"foreignkey:SenderId"`
-	SenderId	uint64	`gorm:"comment:'发送者'"`
-	Receiver 	Account `gorm:"foreignkey:ReceiverId"`
-	ReceiverId  uint64	`gorm:"comment:'接收者'"`
+	Text 		string 	`gorm:"comment:'文本'" json:"text"`
+	Sender 		Account `gorm:"foreignkey:SenderId" json:"sender"`
+	SenderId	uint64	`gorm:"comment:'发送者'" json:"-"`
+	Receiver 	Account `gorm:"foreignkey:ReceiverId" json:"receiver"`
+	ReceiverId  uint64	`gorm:"comment:'接收者'" json:"-"`
 }
 
 func (m *Message) TableName() string {

@@ -7,9 +7,9 @@
 package handlers
 
 import (
-	"fmt"
 	"gin-template/models"
 	"gin-template/pkg/jwt"
+	"gin-template/serializers"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
@@ -46,24 +46,30 @@ func WsMessageHandler(ctx *gin.Context) {
 func TestWsMessageHandler(ctx *gin.Context) {
 	response := Response{Ctx: ctx}
 	currentUser := jwt.AssertUser(ctx)
-	fmt.Println(currentUser)
 	if client, ok := models.ClientManagerInstance.Clients[currentUser.ID]; ok {
-		client.Message <- map[string]interface{}{
-			"id": 310974693714692804,
-			"msg": "okokokok",
+		client.Receive <- &models.FormalMsg{
+			ID: uint64(75932636135786),
+			Text: "ojbk",
 		}
 	}
-	response.Response(nil)
+	response.Response(nil, nil)
 }
 
 func GetWsMessageHandler(ctx *gin.Context) {
 	response := Response{Ctx: ctx}
 	currentUser := jwt.AssertUser(ctx)
 	dstUserId := ctx.Param("id")
-	ctx.ShouldBindQuery()
+	var pager serializers.Pager
+	pager.InitPager(ctx)
 	if currentUser == nil {
 		response.Unauthenticated("未认证")
 		return
 	}
-	models.DB.Model(&models.Message{}).Where("sender_id = ?", currentUser.ID).Or("receiver_id = ?", dstUserId)
+	var messages []models.Message
+	db := models.DB.Model(&messages).Limit(pager.PageSize).Where("sender_id = ?",
+		currentUser.ID).Or("receiver_id = ?", dstUserId).Preload("Sender").Preload("Receiver")
+	db.Count(&pager.Total)
+	db.Offset(pager.OffSet).Find(&messages)
+	pager.GetPager()
+	response.Response(messages, pager)
 }

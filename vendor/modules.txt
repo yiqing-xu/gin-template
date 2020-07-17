@@ -24,6 +24,9 @@ github.com/go-playground/validator/v10
 github.com/go-sql-driver/mysql
 # github.com/golang/protobuf v1.3.3
 github.com/golang/protobuf/proto
+# github.com/gorilla/websocket v1.4.2
+## explicit
+github.com/gorilla/websocket
 # github.com/jinzhu/gorm v1.9.14
 ## explicit
 github.com/jinzhu/gorm
@@ -44,7 +47,6 @@ github.com/modern-go/reflect2
 ## explicit
 # github.com/sony/sonyflake v1.0.0
 ## explicit
-github.com/sony/sonyflake
 # github.com/ugorji/go/codec v1.1.7
 github.com/ugorji/go/codec
 # github.com/unidoc/unioffice v1.4.0

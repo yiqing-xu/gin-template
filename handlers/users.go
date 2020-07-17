@@ -32,10 +32,9 @@ func UsersLoginHandler(ctx *gin.Context) {
 	if err != nil {
 		panic(err)
 	}
-	//data, _ := util.PrecisionLost(user)
-	//data["token"] = token
-	user.Token = token
-	response.Response(user)
+	data, _ := util.PrecisionLost(user)
+	data["token"] = token
+	response.Response(data, nil)
 	return
 }
 
@@ -57,7 +56,7 @@ func UsersRegisterHandler(ctx *gin.Context) {
 	}
 	user.IsActive = true
 	models.DB.Create(&user)
-	response.Response(nil)
+	response.Response(nil, nil)
 }
 
 // 修改用户信息
@@ -76,7 +75,7 @@ func UsersSetInfoHandler(ctx *gin.Context) {
 	currentUser := jwt.AssertUser(ctx)
 	if currentUser != nil {
 		models.DB.Model(&currentUser).Updates(jsonData)
-		response.Response(currentUser)
+		response.Response(currentUser, nil)
 		return
 	}
 }
@@ -111,5 +110,17 @@ func UsersSetPwdHandler(ctx *gin.Context) {
 		return
 	}
 	models.DB.Save(&currentUser)
-	response.Response(nil)
+	response.Response(nil, nil)
+}
+
+func UsersListHandler(ctx *gin.Context) {
+	response := Response{Ctx: ctx}
+	var pager serializers.Pager
+	pager.InitPager(ctx)
+	var users []models.Account
+	db := models.DB.Model(&users)
+	db.Count(&pager.Total)
+	db.Offset(pager.OffSet).Limit(pager.PageSize).Find(&users)
+	pager.GetPager()
+	response.Response(users, pager)
 }

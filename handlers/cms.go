@@ -43,7 +43,7 @@ func UploadFileHandler(ctx *gin.Context) {
 	fileModel.Path =  filePath
 	models.DB.Create(&fileModel)
 	fileModel.BuildAbsoluteUri(ctx)
-	response.Response(fileModel)
+	response.Response(fileModel, nil)
 }
 
 // 下载文件

@@ -6,7 +6,9 @@
 
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 const (
 	Success		 	= 200
@@ -26,13 +28,15 @@ type JsonResponse struct {
 	Code int `json:"code"`
 	Msg string `json:"msg"`
 	Data interface{} `json:"data,omitempty"`
+	Pager interface{} `json:"pager,omitempty"`
 }
 
-func (resp *Response) Response(data interface{}) {
+func (resp *Response) Response(data interface{}, pager interface{}) {
 	resp.Ctx.JSON(Success, JsonResponse{
 		Code: Success,
 		Msg: "返回成功",
 		Data: data,
+		Pager: pager,
 	})
 }
 
