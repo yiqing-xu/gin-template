@@ -9,7 +9,7 @@ golang
 Gin  
 gorm  
 jwt token认证go-jwt  
-gorilla-websocket
+gorilla-websocket服务
 手动集成swagger
 
 #### 项目目录
@@ -39,8 +39,14 @@ gorilla-websocket
 ```shell script
 go mod tidy     // 包管理
 go mod vendor   // 同步包文件
-go run main.go  // 入口
+go run main.go -p 7887 -debug -err -orm  // 入口
 bee run   // 热重载
+```
+
+#### 部署  
+```shell script
+go build main.go
+./main -p 7890 -debug=false -err=false -orm=false
 ```
 
 #### 备注

@@ -17,7 +17,7 @@ import (
 
 var DB *gorm.DB
 
-func SetUp() {
+func SetUp(isOrmDebug bool) {
 	conUri := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=%s&parseTime=True&loc=Local",
 		                  conf.DataBase.User,
 		                  conf.DataBase.Password,
@@ -30,7 +30,7 @@ func SetUp() {
 		panic(err)
 	}
 	DB = db
-	DB.LogMode(true)
+	DB.LogMode(isOrmDebug)
 	gorm.DefaultTableNameHandler = func (db *gorm.DB, defaultTableName string) string  {
 		return conf.DataBase.Prefix + defaultTableName
 	}

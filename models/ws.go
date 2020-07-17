@@ -48,9 +48,7 @@ func (c *Client) ReadMessage() {
 // 从chan获取发送消息
 func (c *Client) WriteMessage() {
 	for {
-		fmt.Println("正在接受")
 		msg := <- c.Receive
-		fmt.Println("正在接受")
 		go func() {
 			message := Message{
 				Text: msg.Text,
@@ -79,5 +77,3 @@ type Message struct {
 func (m *Message) TableName() string {
 	return "messages"
 }
-
-

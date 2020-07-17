@@ -55,6 +55,7 @@ func TestWsMessageHandler(ctx *gin.Context) {
 	response.Response(nil, nil)
 }
 
+// 查询消息记录
 func GetWsMessageHandler(ctx *gin.Context) {
 	response := Response{Ctx: ctx}
 	currentUser := jwt.AssertUser(ctx)
