@@ -15,16 +15,18 @@ import (
 
 type UrlGroup func(group *gin.RouterGroup)
 
-func InitRouter(isErrMsg bool) *gin.Engine {
+func InitRouter(isErrMsg, isDebugMode bool) *gin.Engine {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
 	router.Use(middlewares.ErrorHandleMiddleware(isErrMsg))
 
-	var temp map[string]string
-	if err := json.Unmarshal([]byte(conf.ProjectCfg.StaticUrlMapPath), &temp); err == nil {
-		for url, path := range temp {
-			router.Static(url, path)
+	if isDebugMode {
+		var temp map[string]string
+		if err := json.Unmarshal([]byte(conf.ProjectCfg.StaticUrlMapPath), &temp); err == nil {
+			for url, path := range temp {
+				router.Static(url, path)
+			}
 		}
 	}
 	router.LoadHTMLGlob(conf.ProjectCfg.TemplateGlob)

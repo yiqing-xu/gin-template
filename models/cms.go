@@ -42,8 +42,12 @@ func (file *FileModel) DatePath() string {
 // 创建 年/月/日 文件夹
 func (file *FileModel) MkMediaDir() (string, error) {
 	dir := conf.ProjectCfg.MediaFilePath + time.Now().Format("2006/01/02")
-	if err := os.MkdirAll(dir, os.ModePerm); err != nil {
-		return dir, err
+	if !util.FileOrDirExists(dir) {
+		if err := os.MkdirAll(dir, os.ModePerm); err != nil {
+			return dir, err
+		} else {
+			return dir, nil
+		}
 	} else {
 		return dir, nil
 	}

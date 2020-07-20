@@ -26,19 +26,17 @@ func UploadFileHandler(ctx *gin.Context) {
 	fileModel := models.FileModel{
 		Name: file.Filename,
 	}
-	fileDir, err := fileModel.MkMediaDir()
-	if err != nil {
-		panic(err)
-	}
+	fileDir, _ := fileModel.MkMediaDir()
 	filePath := fmt.Sprintf("%s/%s", fileDir, fileModel.Name)
-	if isExist := util.FileExists(filePath); isExist {  // 判断文件名是否重复
+	if util.FileOrDirExists(filePath) {  // 判断文件名是否重复
 		fileNames := strings.Split(fileModel.Name, ".")
 		fileNames[0] += strconv.Itoa(int(util.GenSonyFlakeId()))
 		fileName := strings.Join(fileNames, ".")
 		filePath = fmt.Sprintf("%s/%s", fileDir, fileName)
 	}
 	if err := ctx.SaveUploadedFile(file, filePath); err != nil {
-		panic(err)
+		response.ServerError(err.Error())
+		return
 	}
 	fileModel.Path =  filePath
 	models.DB.Create(&fileModel)

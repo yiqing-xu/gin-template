@@ -33,14 +33,15 @@ gorilla-websocket服务
     │ go.sum            go mod
     | main              linux执行文件
     │ main.go           main入口
-    │ gin-template.exe  编译二进制文件
+    | nginx.conf        nginx配置
+    | supervisor        supervisor配置
     │ README.md         
 
 #### 启动
 ```shell script
 go mod tidy     // 包管理
 go mod vendor   // 同步包文件
-go run main.go -p 7887 -debug -err -orm  // 入口
+go run main.go -h 0.0.0.0 -p 7887 -debug -err -orm  // 入口
 bee run   // 热重载
 ```
 

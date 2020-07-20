@@ -17,6 +17,7 @@ import (
 	"os"
 )
 
+var host string
 var port string
 var isDebugMode bool
 var isErrMsg bool
@@ -24,6 +25,7 @@ var isOrmDebug bool
 
 
 func init()  {
+	flag.StringVar(&host, "h", "127.0.0.1", "主机")
 	flag.StringVar(&port, "p", "", "监听端口")
 	flag.BoolVar(&isDebugMode, "debug", true, "是否开启debug")
 	flag.BoolVar(&isErrMsg, "err", true, "是否返回错误信息")
@@ -52,19 +54,19 @@ func main() {
 	defer models.DB.Close()
 	defer f.Close()
 
-	router := routers.InitRouter(isErrMsg)
+	router := routers.InitRouter(isErrMsg, isDebugMode)
 
 	if len([]rune(port)) < 4 {
 		port = conf.HttpServer.Port
 	}
-	panic(router.Run(fmt.Sprintf(":%s", port)))
+	panic(router.Run(fmt.Sprintf("%s:%s", host, port)))
 
 	//server := http.Server{
-	//	Addr:           fmt.Sprintf(":%d", 7890+i),
+	//	Addr:           "127.0.0.1:7890",
 	//	Handler:        router,
 	//	ReadTimeout:    conf.HttpServer.ReadTimeout * time.Second,
 	//	WriteTimeout:   conf.HttpServer.WriteTimeout * time.Second,
 	//}
-	//return server.ListenAndServe()
+	//panic(server.ListenAndServe())
 
 }
