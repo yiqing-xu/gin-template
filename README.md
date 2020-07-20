@@ -9,8 +9,8 @@ golang
 Gin  
 gorm  
 jwt token认证go-jwt  
-gorilla-websocket服务
-手动集成swagger
+gorilla-websocket服务  
+手动集成swagger文档
 
 #### 项目目录
     ├─conf              配置文件  
