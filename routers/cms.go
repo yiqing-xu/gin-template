@@ -14,4 +14,5 @@ import (
 func RegisterCmsRouter(routerGroup *gin.RouterGroup) {
 	routerGroup.POST("/file", handlers.UploadFileHandler)
 	routerGroup.GET("/file/:id", handlers.DownloadFileHandler)
+	routerGroup.POST("/doc", handlers.DocFileHandler)
 }

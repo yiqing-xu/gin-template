@@ -51,6 +51,26 @@ github.com/modern-go/reflect2
 github.com/ugorji/go/codec
 # github.com/unidoc/unioffice v1.4.0
 ## explicit
+github.com/unidoc/unioffice
+github.com/unidoc/unioffice/algo
+github.com/unidoc/unioffice/color
+github.com/unidoc/unioffice/common
+github.com/unidoc/unioffice/common/license
+github.com/unidoc/unioffice/document
+github.com/unidoc/unioffice/measurement
+github.com/unidoc/unioffice/schema/soo/dml
+github.com/unidoc/unioffice/schema/soo/dml/picture
+github.com/unidoc/unioffice/schema/soo/ofc/custom_properties
+github.com/unidoc/unioffice/schema/soo/ofc/docPropsVTypes
+github.com/unidoc/unioffice/schema/soo/ofc/extended_properties
+github.com/unidoc/unioffice/schema/soo/ofc/math
+github.com/unidoc/unioffice/schema/soo/ofc/sharedTypes
+github.com/unidoc/unioffice/schema/soo/pkg/content_types
+github.com/unidoc/unioffice/schema/soo/pkg/metadata/core_properties
+github.com/unidoc/unioffice/schema/soo/pkg/relationships
+github.com/unidoc/unioffice/schema/soo/schemaLibrary
+github.com/unidoc/unioffice/schema/soo/wml
+github.com/unidoc/unioffice/zippkg
 # golang.org/x/crypto v0.0.0-20191205180655-e7c4368fe9dd
 ## explicit
 golang.org/x/crypto/bcrypt

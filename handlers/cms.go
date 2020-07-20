@@ -11,6 +11,7 @@ import (
 	"gin-template/models"
 	"gin-template/pkg/util"
 	"github.com/gin-gonic/gin"
+	"github.com/unidoc/unioffice/document"
 	"strconv"
 	"strings"
 )
@@ -53,4 +54,28 @@ func DownloadFileHandler(ctx *gin.Context) {
 	ctx.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=%s", file.Name))
 	ctx.Writer.Header().Set("Content-Type", "application/octet-stream")
 	ctx.File(file.Path)
+}
+
+func DocFileHandler(ctx *gin.Context) {
+	response := Response{Ctx: ctx}
+	file, _ := ctx.FormFile("file")
+	file1, _ := file.Open()
+	doc, err := document.Read(file1, file.Size)
+	if err != nil {
+		fmt.Println(err)
+	}
+	img := doc.Images
+
+	for _, img := range img {
+		fmt.Println(img.Format())
+		fmt.Println(img.Path())
+		fmt.Println(img.Data())
+	}
+
+	for _, para := range doc.Paragraphs() {
+		for _, t := range para.Runs() {
+			fmt.Println(t.Text())
+		}
+	}
+	response.Response(nil, nil)
 }
