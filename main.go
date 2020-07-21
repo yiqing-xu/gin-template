@@ -17,14 +17,16 @@ import (
 	"os"
 )
 
-var host string
-var port string
-var isDebugMode bool
-var isErrMsg bool
-var isOrmDebug bool
+var (
+	f *os.File
+	host string
+	port string
+	isDebugMode bool
+	isErrMsg bool
+	isOrmDebug bool
+)
 
-
-func init()  {
+func init() {
 	flag.StringVar(&host, "h", "127.0.0.1", "主机")
 	flag.StringVar(&port, "p", "", "监听端口")
 	flag.BoolVar(&isDebugMode, "debug", true, "是否开启debug")
@@ -34,26 +36,23 @@ func init()  {
 
 	conf.SetUp()
 	models.SetUp(isOrmDebug)
-}
 
-func main() {
 	if isDebugMode {
 		gin.SetMode(gin.DebugMode)
 	} else {
 		gin.SetMode(gin.ReleaseMode)
 	}
-
-	var f *os.File
 	if err := os.Mkdir("logs", os.ModePerm); err != nil {
 		f, _ = os.OpenFile("logs/gin.log", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
 	} else {
 		f, _ = os.Create("logs/gin.log")
 	}
 	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
 
+func main() {
 	defer models.DB.Close()
 	defer f.Close()
-
 	router := routers.InitRouter(isErrMsg, isDebugMode)
 
 	if len([]rune(port)) < 4 {

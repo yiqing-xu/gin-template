@@ -6,6 +6,7 @@
 
 package models
 
+import "C"
 import (
 	"fmt"
 	"github.com/gorilla/websocket"
@@ -13,14 +14,14 @@ import (
 
 type FormalMsg struct {
 	ID 	 uint64 `json:"id"`
-	Text string `json:"text"`
+	Text  string `json:"text"`
 }
 
 type Client struct {
 	ID      uint64
 	WsConn  *websocket.Conn
-	Message chan map[string]interface{}
 	Receive chan *FormalMsg
+	Message chan *FormalMsg
 }
 
 type ClientManager struct {
@@ -39,7 +40,6 @@ func (c *Client) ReadMessage() {
 		if err != nil {  // err则表示断开连接，删除conn连接
 			fmt.Println(err)
 			delete(ClientManagerInstance.Clients, c.ID)
-			break
 		}
 		c.Receive <- &msg
 	}
@@ -58,8 +58,17 @@ func (c *Client) WriteMessage() {
 			DB.Create(&message)
 		}()
 
-		dstClient := ClientManagerInstance.Clients[msg.ID]
-		if err := dstClient.WsConn.WriteJSON(msg); err != nil {
+		if err := c.WsConn.WriteJSON(msg); err != nil {
+			fmt.Println(err)
+		}
+	}
+}
+
+// 单向通知消息
+func (c *Client) SendMessage() {
+	for {
+		msg := <- c.Message
+		if err := c.WsConn.WriteJSON(msg); err != nil {
 			fmt.Println(err)
 		}
 	}

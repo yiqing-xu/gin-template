@@ -35,24 +35,22 @@ func WsMessageHandler(ctx *gin.Context) {
 	client := models.Client{
 		ID: currentUser.ID,
 		WsConn: wsConn,
-		Message: make(chan map[string]interface{}, 1024),
+		Message: make(chan *models.FormalMsg, 1024),
 		Receive: make(chan *models.FormalMsg, 1024),
 	}
 	models.ClientManagerInstance.Clients[client.ID] = &client
 	go client.ReadMessage()
 	go client.WriteMessage()
+	go client.SendMessage()
 }
 
-func TestWsMessageHandler(ctx *gin.Context) {
-	response := Response{Ctx: ctx}
-	currentUser := jwt.AssertUser(ctx)
-	if client, ok := models.ClientManagerInstance.Clients[currentUser.ID]; ok {
-		client.Receive <- &models.FormalMsg{
-			ID: uint64(75932636135786),
-			Text: "ojbk",
+func SendWsMessageHandler(user models.Account, text string) {
+	if dstClient, ok := models.ClientManagerInstance.Clients[user.ID]; ok {
+		dstClient.Message <- &models.FormalMsg{
+			ID:   user.ID,
+			Text: text,
 		}
 	}
-	response.Response(nil, nil)
 }
 
 // 查询消息记录
