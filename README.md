@@ -1,7 +1,7 @@
 # gin-template
 
 #### 介绍
-基于golang web框架Gin搭建通用项目模板  
+基于golang web搭建通用项目模板  
 构建restful api
 
 #### 软件架构
@@ -37,7 +37,12 @@ gorilla-websocket服务
     | supervisor        supervisor配置
     │ README.md         
 
-#### 启动
+#### 启动  
+参数：   
+-debug  开启debug模式  
+-err    是否返回报错异常堆栈信息  
+-orm    是否开启gorm debug模式  
+
 ```shell script
 go mod tidy     // 包管理
 go mod vendor   // 同步包文件
@@ -48,7 +53,7 @@ bee run   // 热重载
 #### 部署  
 ```shell script
 go build main.go
-./main -p 7890 -debug=false -err=false -orm=false
+./main -p 7890 -debug=false -err=false -orm=false  // supervisor command 
 ```
 
 #### 备注
