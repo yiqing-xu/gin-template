@@ -1,7 +1,7 @@
 /*
 @Time : 2020/7/16 23:44
 @Author : xuyiqing
-@File : common.py
+@File : common.go
 */
 
 package serializers

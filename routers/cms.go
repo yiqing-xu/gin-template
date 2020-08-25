@@ -1,7 +1,7 @@
 /*
 @Time : 2020/7/15 22:18
 @Author : xuyiqing
-@File : cms.py
+@File : cms.go
 */
 
 package routers

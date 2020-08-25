@@ -1,7 +1,7 @@
 /*
-@Time : 2020/7/16 13:04
+@Time	: 2020/7/16 13:04
 @Author : xuyiqing
-@File : ws.py
+@File 	: ws.go
 */
 
 package models

@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/28 22:37
 @Author : xuyiqing
-@File : response.py
+@File : response.go
 */
 
 package handlers

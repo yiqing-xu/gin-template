@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/29 19:11
 @Author : xuyiqing
-@File : swagger.py
+@File : swagger.go
 */
 
 package routers

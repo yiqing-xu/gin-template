@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/29 9:05
 @Author : xuyiqing
-@File : auth.py
+@File : auth.go
 */
 
 package jwt

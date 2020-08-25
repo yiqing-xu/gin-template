@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/28 22:50
 @Author : xuyiqing
-@File : error.py
+@File : error.go
 */
 
 package middlewares

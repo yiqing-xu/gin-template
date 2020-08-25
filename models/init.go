@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/28 21:46
 @Author : xuyiqing
-@File : init.py
+@File : init.go
 */
 
 package models

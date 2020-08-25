@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/28 21:24
 @Author : xuyiqing
-@File : main.py
+@File : main.go
 */
 
 package main

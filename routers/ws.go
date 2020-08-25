@@ -1,7 +1,7 @@
 /*
 @Time : 2020/7/16 12:49
 @Author : xuyiqing
-@File : ws.py
+@File : ws.go
 */
 
 package routers

@@ -1,7 +1,7 @@
 /*
 @Time : 2020/6/28 21:48
 @Author : xuyiqing
-@File : config.py
+@File : config.go
 */
 
 package conf
